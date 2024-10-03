@@ -17,6 +17,7 @@ function game(cell, symbol) {
     cell.classList.add('filled');
     console.log('done')
     checkWin(symbol);
+    if (symbol == 'X') computerChoice();
 }
 
 function checkWin(symbol) {
@@ -37,5 +38,13 @@ function resetGame() {
     li.forEach((item) => {
         item.classList.remove('filled');
         item.textContent = '';
+        board = new Array(9).fill(null);
     })
+}
+
+function computerChoice() {
+    const choice = (Math.floor(Math.random() * 9));
+    const targetCell = document.getElementById(`${choice}`);
+    if (targetCell.classList.contains('filled')) computerChoice();
+    else game(targetCell, 'O');
 }
