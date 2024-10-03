@@ -1,6 +1,17 @@
 const li = document.querySelectorAll('li');
 const h1 = document.querySelector('h1');
 const button = document.querySelector('button');
+let playerName = undefined;
+
+const name = () => {
+    let name = prompt('Insert your name');
+    if (name == undefined || name == null) playerName = 'Mysterious Player'; 
+    else playerName = name; 
+};
+
+name();
+h1.textContent = `Hi ${playerName}, welcome to Odin Tic-Tac-Toe!`;
+
 
 li.forEach((item) => {
     item.addEventListener('click', function() {
@@ -57,7 +68,7 @@ const game = (() => {
             board = new Array(9).fill(null);
             endGame = false;
             button.style.visibility = 'hidden';
-            h1.textContent = 'Odin Tic-tac-toe';
+            h1.textContent = `Hi ${playerName}, welcome to Odin Tic-Tac-Toe!`;
         });
     }
 
