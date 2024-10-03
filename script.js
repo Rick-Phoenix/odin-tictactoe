@@ -1,23 +1,27 @@
 const li = document.querySelectorAll('li');
+const h1 = document.querySelector('h1');
+const button = document.querySelector('button');
 
 li.forEach((item) => {
     item.addEventListener('click', function() {
         game.round(this, 'X');
     })
-})
+});
+
+button.addEventListener('click', () => game.resetGame());
 
 const game = (() => {
     let board = new Array(9).fill(null);
+    endGame = false;
+    if (endGame == true) return;
 
     const round = (cell, symbol) => {
-        if (cell.classList.contains('filled')) return;
+        if (cell.classList.contains('filled') || endGame == true) return;
         const id = +cell.id;
         cell.textContent = symbol;
         board[id] = symbol;
         cell.classList.add('filled');
-        console.log('done')
         checkWin(symbol);
-        if (symbol == 'X') computerChoice();
     }
 
     const checkWin = (symbol) => {
@@ -29,10 +33,21 @@ const game = (() => {
         
         for (comb of winningCombinations) {
             if (filledCells.includes(comb[0]) && filledCells.includes(comb[1]) && filledCells.includes(comb[2])) {
-                console.log('Yes');
-                resetGame();
+                if (symbol == 'X') h1.textContent = 'You won! :)';
+                if (symbol == 'O') h1.textContent = 'You lost! :(';
+                endGame = true;
+                button.style.visibility = 'visible';
+                return;
             }
         }
+
+        if (!board.includes(null)) {
+            h1.textContent = "It's a tie!";
+            endGame = true;
+            button.style.visibility = 'visible';
+            return;
+        }
+        if (symbol == 'X') computerChoice();
     }
 
     const resetGame = () => {
@@ -40,6 +55,9 @@ const game = (() => {
             item.classList.remove('filled');
             item.textContent = '';
             board = new Array(9).fill(null);
+            endGame = false;
+            button.style.visibility = 'hidden';
+            h1.textContent = 'Odin Tic-tac-toe';
         });
     }
 
@@ -50,5 +68,5 @@ const game = (() => {
         else round(targetCell, 'O');
     }
 
-    return {round};
+    return {round, resetGame};
 })();

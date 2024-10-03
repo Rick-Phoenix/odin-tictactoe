@@ -36,3 +36,9 @@ li {
     justify-content: center;
     font-size: xxx-large;
 }
+
+button {
+    margin-top: 25px;
+    height: 50px;
+    visibility: hidden;
+}
